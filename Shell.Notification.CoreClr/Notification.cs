@@ -24,18 +24,10 @@ namespace Shell.Notification.CoreClr
 #else
             if (OperatingSystem.IsLinux())
             {
-                // /usr/share/icons/image.png
-                // ~/.local/share/icons/image.png
-                // --icon image　で実行できる。
-                // title, messageの順に処理される。
-                // どちらかに置かないと処理できない。
-                // judge = System.IO.File.Exists("/usr/bin/notify-send");
+                LinuxSendNotification();   
             } else if (OperatingSystem.IsMacOS())
             {
-                // macはappiconハウゴッはは
-                // terminal-notifier
-                // judge = System.IO.File.Exists("/usr/local/bin/terminal-notifier");
-                // いない芋も持っていない
+                MacOSSendNotification();
             }
 #endif
         }
@@ -64,12 +56,11 @@ namespace Shell.Notification.CoreClr
                 // いない芋も持っていない
             }
 
-            return (judge, message);
 #endif
+            return (judge, message);
 	    }
 
 #if WINDOWS
-        // [SupportedOSPlatform("windows")]
         public void WindowsSendNotification()
         {
             var notification = new AppNotificationBuilder()
@@ -79,6 +70,29 @@ namespace Shell.Notification.CoreClr
 
             AppNotificationManager.Default.Show(notification);
         }
+#else
+        [SupportedOSPlatform("linux")]
+        public void LinuxSendNotification()
+        {
+
+            // /usr/share/icons/image.png
+            // ~/.local/share/icons/image.png
+            // --icon image　で実行できる。
+            // title, messageの順に処理される。
+            // どちらかに置かないと処理できない。
+            // judge = System.IO.File.Exists("/usr/bin/notify-send");
+        }
+
+        [SupportedOSPlatform("MacCatalyst")]
+        public void MacOSSendNotification()
+        {
+            // macはappiconハウゴッはは
+            // terminal-notifier
+            // judge = System.IO.File.Exists("/usr/local/bin/terminal-notifier");
+            // いない芋も持っていない
+
+        }
+
 #endif
 
     }

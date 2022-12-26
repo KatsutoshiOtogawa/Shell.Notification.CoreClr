@@ -24,6 +24,11 @@ namespace Shell.Notification.CoreClr
 #else
             if (OperatingSystem.IsLinux())
             {
+                // /usr/share/icons/image.png
+                // ~/.local/share/icons/image.png
+                // --icon image　で実行できる。
+                // title, messageの順に処理される。
+                // どちらかに置かないと処理できない。
                 // judge = System.IO.File.Exists("/usr/bin/notify-send");
             } else if (OperatingSystem.IsMacOS())
             {
